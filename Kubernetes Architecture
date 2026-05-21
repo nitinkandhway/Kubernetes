@@ -1,6 +1,6 @@
 # Kubernetes Architecture for Beginners
 
-Kubernetes (K8s) is an open-source container orchestration platform used to deploy, manage, and scale containerized applications.
+## Kubernetes (K8s) is an open-source container orchestration platform used to deploy, manage, and scale containerized applications.
 
 Before learning Pods, Deployments, or Services, it is important to understand the core Kubernetes architecture.
 

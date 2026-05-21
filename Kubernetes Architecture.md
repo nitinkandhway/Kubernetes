@@ -1,0 +1,262 @@
+# Kubernetes Architecture for Beginners
+
+Kubernetes (K8s) is an open-source container orchestration platform used to deploy, manage, and scale containerized applications.
+
+Before learning Pods, Deployments, or Services, it is important to understand the core Kubernetes architecture.
+
+---
+
+# 1. Node
+
+A **Node** is a machine (Physical Server or Virtual Machine) where Kubernetes runs workloads.
+
+Worker Nodes host:
+
+- Containers
+- Pods
+- Application workloads
+
+Example:
+
+```
+Application → Node 1
+```
+
+If Node 1 fails:
+
+- Application becomes unavailable
+- Users experience downtime
+
+To eliminate a single point of failure, Kubernetes uses multiple nodes.
+
+---
+
+# 2. Cluster
+
+A **Cluster** is a group of nodes managed together by Kubernetes.
+
+Benefits of a Cluster:
+
+- **High Availability** – Applications remain accessible even if a node fails
+- **Load Distribution** – Workloads can be shared across nodes
+- **Scalability** – Additional nodes can be added when demand increases
+- **Fault Tolerance** – Improves application reliability
+
+Example:
+
+```
+Kubernetes Cluster
+
+├── Worker Node 1
+├── Worker Node 2
+└── Worker Node 3
+```
+
+If one node fails, workloads continue running on healthy nodes.
+
+---
+
+# 3. Control Plane
+
+The **Control Plane** (previously called Master Node) manages the Kubernetes cluster.
+
+Responsibilities:
+
+- Monitor cluster health
+- Schedule workloads
+- Store cluster information
+- Detect failures
+- Maintain desired state
+
+Think of the Control Plane as:
+
+> The decision-making layer of Kubernetes
+
+---
+
+# 4. Core Kubernetes Components
+
+### API Server
+
+The **API Server** is the entry point to the Kubernetes cluster.
+
+All communication happens through the API Server.
+
+Examples:
+
+- `kubectl`
+- CI/CD tools
+- Monitoring platforms
+- Automation systems
+
+---
+
+### ETCD
+
+**ETCD** is a distributed key-value store used by Kubernetes.
+
+Stores:
+
+- Node information
+- Pod details
+- Cluster configuration
+- Current cluster state
+
+ETCD acts as:
+
+> The source of truth for Kubernetes
+
+---
+
+### Scheduler
+
+The **Scheduler** determines where workloads should run.
+
+It evaluates:
+
+- CPU availability
+- Memory availability
+- Resource constraints
+- Node health
+
+Then assigns Pods to the most suitable node.
+
+---
+
+### Controller Manager
+
+Controllers continuously monitor cluster state.
+
+Example:
+
+Desired State:
+
+```
+3 Pods Running
+```
+
+Current State:
+
+```
+2 Pods Running
+```
+
+The Controller detects the difference and creates replacement Pods automatically.
+
+This enables Kubernetes self-healing.
+
+---
+
+# 5. Worker Node Components
+
+### Kubelet
+
+**Kubelet** runs on every Worker Node.
+
+Responsibilities:
+
+- Communicate with Control Plane
+- Monitor Pods
+- Report node health
+- Ensure workloads run as expected
+
+---
+
+### Container Runtime
+
+Container Runtime is responsible for running containers.
+
+Examples:
+
+- containerd
+- CRI-O
+
+Responsibilities:
+
+- Pull container images
+- Start containers
+- Stop containers
+- Manage container lifecycle
+
+---
+
+# Kubernetes Architecture Overview
+
+```
+                User / kubectl
+                       |
+                 API Server
+                       |
+      --------------------------------
+      |              |              |
+    ETCD        Scheduler    Controller
+                       |
+            -----------------------
+            |                     |
+      Worker Node 1         Worker Node 2
+            |                     |
+         Kubelet              Kubelet
+            |                     |
+    Container Runtime   Container Runtime
+            |                     |
+          Pods                  Pods
+```
+
+---
+
+# kubectl
+
+`kubectl` is the Kubernetes Command Line Interface (CLI).
+
+Common Commands:
+
+List cluster nodes:
+
+```bash
+kubectl get nodes
+```
+
+View cluster information:
+
+```bash
+kubectl cluster-info
+```
+
+Deploy an application:
+
+```bash
+kubectl run nginx --image=nginx
+```
+
+---
+
+# Key Concepts
+
+**Node** → Machine running workloads
+
+**Cluster** → Group of nodes
+
+**Control Plane** → Cluster management layer
+
+**ETCD** → Stores cluster state
+
+**Scheduler** → Assigns workloads
+
+**Controller Manager** → Maintains desired state
+
+**Kubelet** → Worker node agent
+
+**Container Runtime** → Executes containers
+
+**kubectl** → Kubernetes management CLI
+
+---
+
+Understanding these concepts creates the foundation for learning:
+
+- Pods
+- Deployments
+- Services
+- Networking
+- Storage
+- Scaling
